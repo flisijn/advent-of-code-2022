@@ -9,24 +9,23 @@ class Day04 {
         .split("\n")
         .filter { it.isNotBlank() }
         .map { line ->
-            line.split(",").map { part ->
-                val boundaries = part.split("-").map { it.toInt() }
-                boundaries[0]..boundaries[1]
-            }
-        }
+            line.split(",")
+                .map { part -> part.split("-").map { it.toInt() } }
+                .map { it[0]..it[1] }
+        }.map { it.first() to it.last() }
 
     private fun IntRange.containsAll(other: IntRange) = first <= other.first && last >= other.last
     private fun IntRange.containsAny(other: IntRange) = contains(other.first) || contains(other.last)
 
-    private fun part1(lines: List<List<IntRange>>): Int {
-        return lines.count { sections ->
-            sections[0].containsAll(sections[1]) || sections[1].containsAll(sections[0])
+    private fun part1(lines: List<Pair<IntRange, IntRange>>): Int {
+        return lines.count { (first, second) ->
+            first.containsAll(second) || second.containsAll(first)
         }
     }
 
-    private fun part2(lines: List<List<IntRange>>): Int {
-        return lines.count { sections ->
-            sections[0].containsAny(sections[1]) || sections[1].containsAny(sections[0])
+    private fun part2(lines: List<Pair<IntRange, IntRange>>): Int {
+        return lines.count { (first, second) ->
+            first.containsAny(second) || second.containsAny(first)
         }
     }
 
