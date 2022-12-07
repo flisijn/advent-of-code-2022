@@ -15,12 +15,30 @@ class Day07 {
         data class Ls(val result: MutableList<Entry> = mutableListOf()) : Command {
             fun addDir(dir: String) = result.add(Entry.Dir(dir))
             fun addFile(file: String, size: Int) = result.add(Entry.File(file, size))
+            val files: List<Entry.File>
+                get() = result.filterIsInstance<Entry.File>()
         }
     }
 
     sealed interface Entry {
         data class Dir(val dir: String) : Entry
         data class File(val file: String, val size: Int) : Entry
+    }
+
+    class WorkingDir {
+        private val path = mutableListOf<String>()
+
+        fun cd(dir: String) {
+            when (dir) {
+                ".." -> path.removeLast()
+                "/" -> path += "/"
+                else -> path += "${dir}/"
+            }
+        }
+
+        val allParentDirs: List<String>
+            get() = (path.size downTo 1)
+                .map { i -> path.subList(0, i).joinToString(separator = "") }
     }
 
     private fun readCommands(lines: List<String>): MutableList<Command> {
@@ -44,23 +62,14 @@ class Day07 {
     }
 
     private fun calculateDirSizes(commands: MutableList<Command>): MutableMap<String, Int> {
-        val workingDir = mutableListOf<String>()
+        val workingDir = WorkingDir()
         val dirSizes = mutableMapOf<String, Int>()
         commands.forEach { cmd ->
             when (cmd) {
-                is Command.Cd -> {
-                    when (cmd.dir) {
-                        ".." -> workingDir.removeLast()
-                        "/" -> workingDir += "/"
-                        else -> workingDir += "${cmd.dir}/"
-                    }
-                }
-
+                is Command.Cd -> workingDir.cd(cmd.dir)
                 is Command.Ls -> {
-                    val size = cmd.result.filterIsInstance<Entry.File>()
-                        .sumOf { it.size }
-                    for (i in workingDir.size downTo 1) {
-                        val dir = workingDir.subList(0, i).joinToString(separator = "")
+                    val size = cmd.files.sumOf { it.size }
+                    workingDir.allParentDirs.forEach { dir ->
                         val old = dirSizes[dir] ?: 0
                         dirSizes[dir] = old + size
                     }
