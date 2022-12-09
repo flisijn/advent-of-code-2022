@@ -1,4 +1,4 @@
 package adventofcode.common
 
-fun getResourceAsText(path: String): String =
-    checkNotNull(object {}.javaClass.getResource(path)).readText()
+inline fun <reified T> T.getResourceAsText(path: String): String =
+    checkNotNull(T::class.javaClass.getResource("/${T::class.simpleName?.lowercase()}/$path")).readText()

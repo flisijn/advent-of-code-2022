@@ -60,7 +60,7 @@ class Day08 {
 
     @Test
     fun test() {
-        val testData = load("/day08/test.txt")
+        val testData = load("test.txt")
 
         val part1 = part1(testData)
         assertEquals(21, part1)
@@ -71,7 +71,7 @@ class Day08 {
 
     @Test
     fun run() {
-        val inputData = load("/day08/input.txt")
+        val inputData = load("input.txt")
 
         val part1 = part1(inputData)
         println("part 1: $part1")

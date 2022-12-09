@@ -85,23 +85,23 @@ class Day05 {
 
     @Test
     fun test() {
-        val testData1 = load("/day05/test.txt")
+        val testData1 = load("test.txt")
         val part1 = part1(testData1)
         assertEquals("CMZ", part1)
 
-        val testData2 = load("/day05/test.txt")
+        val testData2 = load("test.txt")
         val part2 = part2(testData2)
         assertEquals("MCD", part2)
     }
 
     @Test
     fun run() {
-        val inputData1 = load("/day05/input.txt")
+        val inputData1 = load("input.txt")
 
         val part1 = part1(inputData1)
         println("part 1: $part1")
 
-        val inputData2 = load("/day05/input.txt")
+        val inputData2 = load("input.txt")
         val part2 = part2(inputData2)
         println("part 2: $part2")
     }
