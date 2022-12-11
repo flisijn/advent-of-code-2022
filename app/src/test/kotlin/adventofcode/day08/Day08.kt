@@ -53,7 +53,7 @@ class Day08 {
                 val views = getViews(rows[y], x, columns[x], y)
                 val value = rows[y][x]
                 views.map { view -> getScore(view, value) }
-                    .fold(1) { acc, it -> acc * it }
+                    .reduce(Int::times)
             }
         }
     }
