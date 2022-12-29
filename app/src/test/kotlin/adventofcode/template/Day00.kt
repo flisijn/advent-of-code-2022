@@ -1,5 +1,6 @@
-package adventofcode.common
+package adventofcode.template
 
+import adventofcode.common.getResourceAsText
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
